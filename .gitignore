@@ -4,6 +4,9 @@
 *.zip
 *.tar.gz
 
+# Allow d1-jdbc-driver in plugins directory
+!plugins/connector-jdbc/*.jar
+
 # see JDK-8214300
 .attach_pid*
 

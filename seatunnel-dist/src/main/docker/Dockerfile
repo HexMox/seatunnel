@@ -1,4 +1,4 @@
-FROM openjdk:8 as builder
+FROM openjdk:8u342 AS builder
 
 ARG VERSION
 
@@ -12,6 +12,6 @@ RUN cd /opt && \
     sed -i 's/rootLogger.appenderRef.file.ref/#rootLogger.appenderRef.file.ref/' seatunnel/config/log4j2.properties && \
     cp seatunnel/config/hazelcast-master.yaml seatunnel/config/hazelcast-worker.yaml
 
-FROM openjdk:8
+FROM openjdk:8u342
 COPY --from=builder /opt/seatunnel /opt/seatunnel
 WORKDIR /opt/seatunnel
