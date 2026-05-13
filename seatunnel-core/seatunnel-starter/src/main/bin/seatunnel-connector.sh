@@ -35,7 +35,14 @@ done
 
 PRG_DIR=$(dirname "$PRG")
 APP_DIR=$(cd "$PRG_DIR/.." >/dev/null; pwd)
-APP_JAR=${APP_DIR}/starter/seatunnel-starter.jar
+shopt -s nullglob
+APP_JAR_CANDIDATES=("${APP_DIR}"/starter/seatunnel-starter*.jar)
+shopt -u nullglob
+if [ ${#APP_JAR_CANDIDATES[@]} -eq 0 ]; then
+    echo "Cannot find starter jar under ${APP_DIR}/starter" >&2
+    exit 1
+fi
+APP_JAR=${APP_JAR_CANDIDATES[0]}
 LOAD_CLASS="org.apache.seatunnel.core.starter.seatunnel.SeaTunnelConnector"
 
 if [ $# == 0 ]

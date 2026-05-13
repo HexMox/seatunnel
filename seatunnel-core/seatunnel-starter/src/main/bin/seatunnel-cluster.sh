@@ -36,7 +36,14 @@ done
 PRG_DIR=`dirname "$PRG"`
 APP_DIR=`cd "$PRG_DIR/.." >/dev/null; pwd`
 CONF_DIR=${APP_DIR}/config
-APP_JAR=${APP_DIR}/starter/seatunnel-starter.jar
+shopt -s nullglob
+APP_JAR_CANDIDATES=("${APP_DIR}"/starter/seatunnel-starter*.jar)
+shopt -u nullglob
+if [ ${#APP_JAR_CANDIDATES[@]} -eq 0 ]; then
+    echo "Cannot find starter jar under ${APP_DIR}/starter" >&2
+    exit 1
+fi
+APP_JAR=${APP_JAR_CANDIDATES[0]}
 APP_MAIN="org.apache.seatunnel.core.starter.seatunnel.SeaTunnelServer"
 MASTER_OUT="${APP_DIR}/logs/seatunnel-engine-master.out"
 WORKER_OUT="${APP_DIR}/logs/seatunnel-engine-worker.out"

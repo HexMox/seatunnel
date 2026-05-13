@@ -24,7 +24,14 @@ for %%F in ("%~f0") do (
 )
 
 set "CONF_DIR=%APP_DIR%\config"
-set "APP_JAR=%APP_DIR%\starter\seatunnel-starter.jar"
+set "APP_JAR="
+for %%F in ("%APP_DIR%\starter\seatunnel-starter*.jar") do (
+    set "APP_JAR=%%~fF"
+    goto :app_jar_found
+)
+echo Cannot find starter jar under %APP_DIR%\starter 1>&2
+exit /b 1
+:app_jar_found
 set "APP_MAIN=org.apache.seatunnel.core.starter.seatunnel.SeaTunnelServer"
 set "OUT=%APP_DIR%\logs\seatunnel-server.out"
 set "MASTER_OUT=%APP_DIR%\logs\seatunnel-engine-master.out"
